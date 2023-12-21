@@ -1,0 +1,111 @@
+#!/usr/bin/env Rscript
+library(dplyr)
+library(purrr)
+library(readr)
+library(tibble)
+
+
+#setwd('/Users/stephen/projects/umccr_key_genes_202312/2_sources/repo/somatic_panel/2_full_set/')
+
+
+source('../../scripts/util.R')
+
+
+# Read in table
+d <- readr::read_delim(
+  '../1_sources/prepared_combined.tsv',
+  col_types='ccccllc',
+)
+
+
+# Keep all OncoKB and HMF genes, split others for further processing
+# Set grouping
+d.grouped.retain <- d |>
+  dplyr::group_by(
+    retain=dplyr::if_else(data_source %in% c('oncokb', 'hmf'), 'retain', 'other')
+  )
+
+# Split groups, set list keys
+v.retain_groups <- d.grouped.retain |>
+  dplyr::group_split(.keep=FALSE) |>
+  purrr::set_names(dplyr::group_keys(d.grouped.retain) |> dplyr::pull(1))
+
+# Create list of HGNC IDs to retain
+v.retain <- v.retain_groups$retain |>
+  dplyr::pull(hgnc_id) |>
+  unique()
+
+# Set other gene entries to process
+d.process <- v.retain_groups$other |>
+  dplyr::filter(! hgnc_id %in% v.retain)
+
+
+# Process other entries
+# First require entries to be present across at least n lists
+# Plot distribution to decide empirically
+if (FALSE) {
+  library(ggplot2)
+  library(patchwork)
+  library(scales)
+
+  threshold <- 3
+
+  # Get frequency data
+  d.process.counts <- d.process |>
+    dplyr::group_by(hgnc_id) |>
+    dplyr::summarise(n=n())
+
+  # Get cumulative counts
+  d.c <- tibble::tibble(
+    i=1:max(d.process.counts$n),
+    c=sapply(1:max(d.process.counts$n), function(i) { sum(v >= i) }),
+  )
+
+  # Plot frequency
+  g.d <- ggplot2::ggplot(d.process.counts, ggplot2::aes(x=n))
+  g.d <- g.d + ggplot2::geom_freqpoly(binwidth=1)
+  g.d <- g.d + ggplot2::geom_vline(xintercept=3, colour='red')
+  g.d <- g.d + ggplot2::scale_x_continuous(breaks=scales::pretty_breaks(9), limits=c(1, 9))
+  g.d <- g.d + ggplot2::scale_y_continuous(breaks=scales::pretty_breaks(5), limits=c(NA, 5000))
+  g.d <- g.d + ggplot2::theme_bw()
+  g.d <- g.d + ggplot2::ggtitle('Frequency distribution')
+
+  # Plot cumulative
+  g.c <- ggplot2::ggplot(d.c, ggplot2::aes(x=i, y=c))
+  g.c <- g.c + ggplot2::geom_line()
+  g.c <- g.c + ggplot2::geom_vline(xintercept=3, colour='red')
+  g.c <- g.c + ggplot2::scale_x_continuous(breaks=scales::pretty_breaks(9), limits=c(1, 9))
+  g.c <- g.c + ggplot2::theme_bw()
+  g.c <- g.c + ggplot2::ggtitle('Inverted cumulative distribution (sum records where fq ≥ i)')
+  g.c <- g.c + ggplot2::labs(y='count')
+
+  # Combine
+  g.d / g.c
+}
+
+# Apply record frequency threshold; selected threshold of 3 as this follows the distribution elbow
+v.retain <- d.process |>
+  dplyr::group_by(hgnc_id) |>
+  dplyr::summarise(n=n()) |>
+  dplyr::filter(n >= 3) |>
+  dplyr::pull(hgnc_id) |>
+  c(v.retain)
+
+
+# Create table with selected genes and set role
+d.retain <- d |>
+  dplyr::filter(hgnc_id %in% v.retain) |>
+  dplyr::group_by(hgnc_id) |>
+  dplyr::summarise(
+    symbol=unique(symbol),
+    ensembl_gene_id=unique(ensembl_gene_id),
+    # util.R::set_gene_role
+    oncogene=set_gene_role(dplyr::across(dplyr::everything()), 'oncogene'),
+    # util.R::set_gene_role
+    tsgene=set_gene_role(dplyr::across(dplyr::everything()), 'tsgene'),
+  ) |>
+  dplyr::arrange(symbol)
+
+
+# Write to disk
+readr::write_tsv(d.retain, 'gene_list.new.tsv')
