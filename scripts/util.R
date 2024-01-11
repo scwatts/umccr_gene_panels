@@ -4,9 +4,9 @@ library(readr)
 library(tidyr)
 
 
-read_hgnc_es105 <- function() {
-  fp <- here::here('resources/ensembl_105_genes_with_hgnc.tsv')
-  readr::read_delim(fp, delim='\t', col_types='cccc')
+read_ensembl_105 <- function() {
+  fp <- here::here('resources/ensembl_gene_data.tsv')
+  readr::read_delim(fp, delim='\t', col_types='cccccccc')
 }
 
 
