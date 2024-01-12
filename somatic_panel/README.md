@@ -13,6 +13,10 @@ The second step is facilitated through maintainence of an [inclusion list](resou
 and [exclusion list](resources/curation_team/genes_exclude.tsv), which are updated in coordination with the curation
 team following refresh of the core panel.
 
+## Overview diagram
+
+<p align='center'><img src='resources/images/overview.png' width='600px'></p>
+
 ## Procedure
 
 1. Review literature, community for new sources
