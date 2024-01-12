@@ -19,5 +19,18 @@ d.final <- d.core |>
   dplyr::arrange(ensembl_gene_symbol)
 
 
+# Exclude PAR region genes where there is another non-PAR entry
+v.exclude_par <- d.final |>
+  dplyr::filter(
+    duplicated(ensembl_gene_symbol) &
+      ! is.na(ensembl_gene_symbol) &
+      stringr::str_detect(ensembl_gene_id, '_PAR_Y$')
+  ) |>
+  dplyr::pull(ensembl_gene_id)
+
+d.final <- d.final |>
+  dplyr::filter(! ensembl_gene_id %in% v.exclude_par)
+
+
 # Write to disk
 readr::write_tsv(d.final, 'final_panel.tsv')
