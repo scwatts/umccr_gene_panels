@@ -60,7 +60,7 @@ gene_data <- c(
 # a combined list the relationship then becomes many-to-many
 gene_data <- gene_data |>
   dplyr::left_join(
-    dplyr::select(ensembl_105, hgnc_id, ensembl_gene_id, symbol),
+    dplyr::select(ensembl_105, hgnc_id, ensembl_gene_id, ensembl_transcript_id, symbol),
     by='hgnc_id',
     relationship='many-to-many',
   ) |>
@@ -79,7 +79,7 @@ gene_data <- gene_data |>
 
 # Order columns and rows
 gene_data <- gene_data |>
-  dplyr::relocate(ensembl_gene_symbol, ensembl_gene_id, hgnc_id, hgnc_symbol, oncogene, tsgene, data_source) |>
+  dplyr::relocate(ensembl_gene_symbol, ensembl_gene_id, hgnc_id, hgnc_symbol, ensembl_transcript_id, oncogene, tsgene, data_source) |>
   dplyr::arrange(data_source, ensembl_gene_symbol)
 
 

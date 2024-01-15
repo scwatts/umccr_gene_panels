@@ -14,7 +14,7 @@ source('../../scripts/util.R')
 # Read in table
 d <- readr::read_delim(
   '../1_panel_sources/panel_source_data.tsv',
-  col_types='ccccllc',
+  col_types='cccccllc',
 )
 
 
@@ -99,6 +99,7 @@ d.retain <- d |>
   dplyr::summarise(
     ensembl_gene_symbol=unique(ensembl_gene_symbol),
     hgnc_symbol=unique(hgnc_symbol),
+    ensembl_transcript_id=unique(ensembl_transcript_id),
     # util.R::set_gene_role
     oncogene=set_gene_role(dplyr::across(dplyr::everything()), 'oncogene'),
     # # util.R::set_gene_role
@@ -107,7 +108,7 @@ d.retain <- d |>
 
 # Order columns and rows
 d.retain <- d.retain |>
-  dplyr::relocate(ensembl_gene_symbol, ensembl_gene_id, hgnc_id, hgnc_symbol, oncogene, tsgene) |>
+  dplyr::relocate(ensembl_gene_symbol, ensembl_gene_id, hgnc_id, hgnc_symbol, ensembl_transcript_id, oncogene, tsgene) |>
   dplyr::arrange(ensembl_gene_symbol)
 
 
