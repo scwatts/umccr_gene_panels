@@ -8,10 +8,10 @@ library(tidyr)
 d <- readr::read_delim(fs::path(PREFIX, 'data', '01-Dec-2023-GeneSummaries.tsv'), col_types='ccccccc')
 
 
-# # Apply fixes for matching
-# # COX2 matches on ambiguous alias symbol in hgnc_latest; manually confirmed to be MT-CO2
+# Apply fixes for matching
+# COX2 matches on ambiguous alias symbol in hgnc_latest; manually confirmed to be MT-CO2
 d$name[d$name=='COX2'] <- 'MT-CO2'
-# # ND1 matches on ambiguous alias symbol in hgnc_latest; manually confirmed to be MT-ND1
+# ND1 matches on ambiguous alias symbol in hgnc_latest; manually confirmed to be MT-ND1
 d$name[d$name=='ND1'] <- 'MT-ND1'
 
 

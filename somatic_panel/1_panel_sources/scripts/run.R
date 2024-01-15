@@ -55,8 +55,9 @@ gene_data <- c(
   dplyr::bind_rows()
 
 
-# Add Ensembl gene IDs
-# The HGNC ID to Ensembl gene ID is a one-to-multiple relationship, hence can introduce additional records. Futher, since this is a combined list the relationship then becomes many-to-many
+# Add Ensembl gene IDs and symbols
+# The relationship between HGNC data and Ensembl 105 is a one-to-multiple relationship, hence can introduce additional records. Futher, since this is
+# a combined list the relationship then becomes many-to-many
 gene_data <- gene_data |>
   dplyr::left_join(
     dplyr::select(ensembl_105, hgnc_id, ensembl_gene_id, symbol),

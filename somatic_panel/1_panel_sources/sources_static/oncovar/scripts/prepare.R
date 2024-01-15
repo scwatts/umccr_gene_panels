@@ -41,7 +41,7 @@ d.m <- d.m |>
   dplyr::arrange(Gene_symbol)
 
 
-# # Include Ensembl gene IDs where available; the HGNC ID to Ensembl gene ID is a one-to-multiple relationship, hence can introduce additional records
+# # Include Ensembl gene IDs where available; the relationship between HGNC data and Ensembl 105 is a one-to-multiple relationship, hence can introduce additional records
 # d.e <- d.m |>
 #   dplyr::left_join(dplyr::select(ensembl_105, hgnc_id, ensembl_gene_id), by='hgnc_id') |>
 #   dplyr::mutate(ensembl_gene_id=stringr::str_remove(ensembl_gene_id, '\\..*$'))
