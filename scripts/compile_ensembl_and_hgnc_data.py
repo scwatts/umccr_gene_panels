@@ -88,14 +88,17 @@ def get_ensembl_data(fp):
                 assert record.ensembl_gene_id not in genes
                 genes[record.ensembl_gene_id] = record
 
-            elif record.feature == 'CDS' and 'Ensembl_canonical' in record.attribute_dict.get('tag', {}):
-                if record.ensembl_gene_id not in cds:
-                    cds[record.ensembl_gene_id] = list()
-                cds[record.ensembl_gene_id].append(record)
+            elif 'Ensembl_canonical' in record.attribute_dict.get('tag', {}):
+                if record.feature == 'CDS':
+                    if record.ensembl_gene_id not in cds:
+                        cds[record.ensembl_gene_id] = list()
+                    cds[record.ensembl_gene_id].append(record)
 
-                if record.ensembl_gene_id in canonical_transcripts:
-                    assert canonical_transcripts[record.ensembl_gene_id] == record.attribute_dict['transcript_id']
-                canonical_transcripts[record.ensembl_gene_id] = record.attribute_dict['transcript_id']
+                if 'transcript_id' in record.attribute_dict:
+                    if record.ensembl_gene_id in canonical_transcripts:
+                        assert canonical_transcripts[record.ensembl_gene_id] == record.attribute_dict['transcript_id']
+                    else:
+                        canonical_transcripts[record.ensembl_gene_id] = record.attribute_dict['transcript_id']
 
 
     return {'genes': genes, 'cds': cds, 'canonical_transcripts': canonical_transcripts}
