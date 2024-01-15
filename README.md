@@ -12,6 +12,8 @@ In progress workspace for updating UMCCR gene panels.
 
 ## Common resources
 
+### Gene annotations
+
 Ensembl 105 and the HGNC are used to reference genes in a consistent way, enabling comparison between different sources.
 This data is obtained from the GENCODE v39 release annotation GTF and processed so that construction of panels are
 readily reproducible offline.
@@ -32,4 +34,25 @@ stored for offline use.
 
 ```bash
 wget -P resources/ https://ftp.ebi.ac.uk/pub/databases/genenames/hgnc/archive/monthly/tsv/hgnc_complete_set_2023-11-01.tsv
+```
+
+### Hartwig Ensembl data cache and Gene Utilities
+
+* TODO: write brief description
+  * some panel data is built from the Hartwig Ensembl data cache
+    * converting UMCCR panels to hmftools-format, generate fusion data for hmftools
+  * this requires Gene Utilities from hmftools
+
+
+```bash
+mkdir -p resources/hmftools_ensembl_data_cache/
+
+java \
+  -cp /Users/stephen/projects/umccr_specific_hmftools_resources/1_small_variants/2_ensembl_105/software/gene-utils_a156ed6.jar \
+  com.hartwig.hmftools.geneutils.ensembl.GenerateEnsemblDataCache \
+    -ensembl_user anonymous \
+    -ensembl_db mysql://ensembldb.ensembl.org:3306/homo_sapiens_core_105_38 \
+    -ref_genome_version 38 \
+    -log_debug \
+    -output_dir resources/hmftools_ensembl_data_cache/
 ```
