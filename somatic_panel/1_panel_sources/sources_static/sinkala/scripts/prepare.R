@@ -11,6 +11,14 @@ d <- readr::read_csv(
 )
 
 
+# Apply fixes for matching
+# ZEB1 has two entries, selecting the first
+d <- d |>
+  dplyr::filter(
+    dplyr::row_number() != which(d$HugoSymbol == 'ZEB1') |> tail(1)
+  )
+
+
 # Set gene role
 d.p <- d |>
   dplyr::mutate(
