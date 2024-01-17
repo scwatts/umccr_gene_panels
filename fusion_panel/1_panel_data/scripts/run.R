@@ -7,7 +7,7 @@ library(readr)
 library(tidyr)
 
 
-# setwd('/Users/stephen/projects/umccr_key_genes_202312/2_sources/repo/fusion_panel/1_panel_data/')
+#setwd('/Users/stephen/projects/umccr_key_genes_202312/2_sources/repo/fusion_panel/1_panel_data/')
 
 
 source('../../scripts/util.R')
@@ -22,7 +22,7 @@ hgnc_latest <- read_hgnc_latest()
 
 # Read in data
 d.hmf <- readr::read_delim('data/known_fusion_data.38.csv', col_types='c')
-d.somatic_panel <- readr::read_delim('../../somatic_panel/3_final_panel/final_panel.tsv', col_types='ccccll')
+d.somatic_panel <- readr::read_delim('../../somatic_panel/3_final_panel/final_panel.tsv', col_types='cccccccll')
 
 
 # Set gene symbol for somatic panel
