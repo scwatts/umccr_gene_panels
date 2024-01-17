@@ -28,7 +28,6 @@ tar \
   -s '#^.*/#data/#' \
   ./variants/clinvar.38.vcf.gz
 
-
 db=$(mktemp -d tmp.XXXXXXXXXX)
 mkdir -p ${db}/
 
