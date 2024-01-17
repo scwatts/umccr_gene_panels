@@ -106,7 +106,6 @@ def get_refseq_data(fp, contig_data):
                     if record.chrom == 'chrY' and record.symbol.endswith('_1'):
                         continue
                     else:
-                        breakpoint()
                         assert False
 
                 genes[record.ncbi_gene_id] = record
@@ -138,10 +137,6 @@ def get_mane_select_data(fp):
     with fp.open('r') as fh:
         for line in fh:
             ncbi_gene_id, refseq_transcript_id = line.rstrip().split('\t')
-
-            if ncbi_gene_id in data:
-                breakpoint()
-
             assert ncbi_gene_id not in data
             data[ncbi_gene_id] = refseq_transcript_id
     return data
