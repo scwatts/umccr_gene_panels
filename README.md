@@ -20,10 +20,9 @@ readily reproducible offline.
 
 ```bash
 wget -P resources/ https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_39/gencode.v39.annotation.gtf.gz
-gzip -d resources/gencode.v39.annotation.gtf.gz
 
 ./scripts/compile_ensembl_and_hgnc_data.py \
-  --annotations_fp resources/gencode.v39.annotation.gtf \
+  --annotations_fp resources/gencode.v39.annotation.gtf.gz \
   --output_dir resources/
 ```
 
@@ -34,6 +33,28 @@ stored for offline use.
 
 ```bash
 wget -P resources/ https://ftp.ebi.ac.uk/pub/databases/genenames/hgnc/archive/monthly/tsv/hgnc_complete_set_2023-11-01.tsv
+```
+
+Lastly, some genes are not present in Ensembl 105 (e.g. IGH, TRA) and to obtain genomic coordinates I use RefSeq
+annotations. Similar approach as Ensembl above.
+
+```bash
+base_ftp=https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14
+
+wget -P resources/ ${base_ftp}/GCF_000001405.40_GRCh38.p14_genomic.gtf.gz
+curl ${base_ftp}/GCF_000001405.40_GRCh38.p14_assembly_report.txt | \
+  awk 'BEGIN { OFS="\t" } $0 ~ /^MT|^[0-9XY]/ { print "chr" $1, $7 }' > resources/refseq_contig_id_mapping.tsv
+
+curl https://ftp.ncbi.nlm.nih.gov/refseq/MANE/MANE_human/release_1.3/MANE.GRCh38.v1.3.summary.txt.gz | \
+  gzip -cd | \
+  awk -F$'\t' 'BEGIN { OFS="\t" } NR > 1 && $10 == "MANE Select" { print $1, $6 }' | \
+  sed 's/^GeneID://' > resources/refseq_mane_select.tsv
+
+./scripts/compile_refseq_data.py \
+  --annotations_fp resources/GCF_000001405.40_GRCh38.p14_genomic.gtf.gz \
+  --contig_mapping_fp resources/refseq_contig_id_mapping.tsv \
+  --mane_select_fp resources/refseq_mane_select.tsv \
+  --output_dir resources/
 ```
 
 ### Hartwig Ensembl data cache and Gene Utilities

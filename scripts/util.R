@@ -1,12 +1,17 @@
 library(dplyr)
 library(here)
 library(readr)
+library(stringr)
 library(tidyr)
 
 
 read_ensembl_105 <- function() {
   fp <- here::here('resources/ensembl_gene_data.tsv')
-  readr::read_delim(fp, delim='\t', col_types='cccccccc')
+  readr::read_delim(fp, delim='\t', col_types='cccccccc') |>
+    # Exclude chrY PAR annotations
+    dplyr::filter(stringr::str_detect(ensembl_gene_id, 'PAR_Y', negate=TRUE)) |>
+    # Remove ENSG00000269900.3 since it is a duplicate gene in 105 that is removed in the latest
+    dplyr::filter(ensembl_gene_id != 'ENSG00000269900.3')
 }
 
 
@@ -36,6 +41,14 @@ read_hgnc_latest <- function() {
     alias=d.alias,
     previous=d.previous
   )
+}
+
+
+read_refseq <- function() {
+  fp <- here::here('resources/refseq_gene_data.tsv')
+  readr::read_delim(fp, delim='\t', col_types='c') |>
+    # Exclude chrY PAR annotations
+    dplyr::filter(! (contig=='chrY' & stringr::str_detect(symbol, '_1$')))
 }
 
 

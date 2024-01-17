@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import argparse
+import gzip
 import pathlib
 import re
-import sys
 
 
 RE_ATTRIBUTE_GROUPS = re.compile(r'^(?P<name>[^"]+)(?: "(?P<data>.+)")?;?$')
@@ -60,7 +60,7 @@ def get_ensembl_data(fp):
     genes = dict()
     cds = dict()
     canonical_transcripts = dict()
-    with fp.open('r') as fh:
+    with gzip.open(fp, 'rt') as fh:
         # Skip header rows
         start_pos = int()
         while (line := fh.readline()):
@@ -70,7 +70,7 @@ def get_ensembl_data(fp):
         fh.seek(start_pos)
 
         # Iterate GTF records; full pass prior to write required to map gene ID -> canonical transcript ID
-        for i, line in enumerate(fh, 1):
+        for line in fh:
             # Get record and skip entries without a HGNC ID
             record = prepare_record(line)
             if not record.hgnc_id:
@@ -81,9 +81,9 @@ def get_ensembl_data(fp):
 
                 # NOTE(SW): some genes are duplicated with the same HGNC ID and symbol. These duplicates are seen to
                 # either have different Ensembl gene IDs with slightly different locations (e.g. TBCE [18 total]) or the
-                # same Ensembl gene ID with a location on chrX and another in the PAR chrY region (e.g. SHOX [26 in
-                # total]). Notably, these duplicates includes genes on the somatic panels; core panel: PPP2R3B; core
-                # /and/ final panel: CRLF2, P2RY8.
+                # same Ensembl gene ID with present in both the chrX and chrY PAR regions (e.g. SHOX [26 in total]).
+                # Notably, these duplicates includes genes on the somatic panels; core panel: PPP2R3B; core /and/ final
+                # panel: CRLF2, P2RY8.
 
                 assert record.ensembl_gene_id not in genes
                 genes[record.ensembl_gene_id] = record
@@ -182,7 +182,6 @@ def write_cds_data(cds, canonical_transcripts, output_dir):
                     record.start,
                     record.end,
                     name,
-                    '.',  # BED score column
                     record.strand,
                 ]
                 print(*data, sep='\t', file=fh)

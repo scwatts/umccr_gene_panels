@@ -14,7 +14,7 @@ source('../../scripts/util.R')
 # Read in table
 d <- readr::read_delim(
   '../1_panel_sources/panel_source_data.tsv',
-  col_types='cccccllc',
+  col_types='cccccccllc',
 )
 
 
@@ -95,10 +95,11 @@ v.retain <- d.process |>
 # Create table with selected genes and set role
 d.retain <- d |>
   dplyr::filter(hgnc_id %in% v.retain) |>
-  dplyr::group_by(hgnc_id, ensembl_gene_id) |>
+  dplyr::group_by(hgnc_id, ensembl_gene_id, ncbi_gene_id) |>
   dplyr::summarise(
     ensembl_gene_symbol=unique(ensembl_gene_symbol),
     hgnc_symbol=unique(hgnc_symbol),
+    refseq_gene_symbol=unique(refseq_gene_symbol),
     ensembl_transcript_id=unique(ensembl_transcript_id),
     # util.R::set_gene_role
     oncogene=set_gene_role(dplyr::across(dplyr::everything()), 'oncogene'),
@@ -108,7 +109,7 @@ d.retain <- d |>
 
 # Order columns and rows
 d.retain <- d.retain |>
-  dplyr::relocate(ensembl_gene_symbol, ensembl_gene_id, hgnc_id, hgnc_symbol, ensembl_transcript_id, oncogene, tsgene) |>
+  dplyr::relocate(ensembl_gene_symbol, ensembl_gene_id, ensembl_transcript_id, hgnc_symbol, hgnc_id, refseq_gene_symbol, ncbi_gene_id, oncogene, tsgene) |>
   dplyr::arrange(ensembl_gene_symbol)
 
 

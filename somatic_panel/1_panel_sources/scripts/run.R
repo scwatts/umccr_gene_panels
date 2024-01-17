@@ -3,7 +3,6 @@ library(dplyr)
 library(fs)
 library(purrr)
 library(readr)
-library(stringr)
 library(tibble)
 
 
@@ -18,6 +17,8 @@ source('../../scripts/util.R')
 ensembl_105 <- read_ensembl_105()
 # util.R::read_hgnc_latest
 hgnc_latest <- read_hgnc_latest()
+# util.R::read_hgnc_latest
+refseq <- read_refseq()
 
 
 # Set gene list source directories and execute prep code
@@ -55,20 +56,16 @@ gene_data <- c(
   dplyr::bind_rows()
 
 
-# Add Ensembl gene IDs and symbols
-# The relationship between HGNC data and Ensembl 105 is a one-to-multiple relationship, hence can introduce additional records. Futher, since this is
-# a combined list the relationship then becomes many-to-many
+# Add Ensembl 105 gene IDs and symbols, not all entries have Ensembl records
 gene_data <- gene_data |>
   dplyr::left_join(
     dplyr::select(ensembl_105, hgnc_id, ensembl_gene_id, ensembl_transcript_id, symbol),
     by='hgnc_id',
-    relationship='many-to-many',
   ) |>
-  dplyr::mutate(ensembl_gene_id=stringr::str_remove(ensembl_gene_id, '\\.[0-9]+$')) |>
   dplyr::rename(ensembl_gene_symbol=symbol)
 
 
-# Add in HGNC gene symbol, not all entries have an Ensembl gene ID
+# Add in latest HGNC gene symbol
 gene_data <- gene_data |>
   dplyr::left_join(
     dplyr::select(hgnc_latest$canonical, hgnc_id, symbol),
@@ -77,9 +74,19 @@ gene_data <- gene_data |>
   dplyr::rename(hgnc_symbol=symbol)
 
 
+# Add latest RefSeq/NCBI data
+gene_data <- gene_data |>
+  dplyr::left_join(
+    dplyr::select(refseq, hgnc_id, ncbi_gene_id, symbol),
+    by='hgnc_id',
+  ) |>
+  dplyr::rename(refseq_gene_symbol=symbol)
+
+# NOTE(SW): HGNC:4641 (GSTT1) is currently on chr22 ALT in GRCh38, hence only has HGNC identifiers
+
 # Order columns and rows
 gene_data <- gene_data |>
-  dplyr::relocate(ensembl_gene_symbol, ensembl_gene_id, hgnc_id, hgnc_symbol, ensembl_transcript_id, oncogene, tsgene, data_source) |>
+  dplyr::relocate(ensembl_gene_symbol, ensembl_gene_id, ensembl_transcript_id, hgnc_symbol, hgnc_id, refseq_gene_symbol, ncbi_gene_id, oncogene, tsgene, data_source) |>
   dplyr::arrange(data_source, ensembl_gene_symbol)
 
 
