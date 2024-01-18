@@ -59,17 +59,21 @@ curl https://ftp.ncbi.nlm.nih.gov/refseq/MANE/MANE_human/release_1.3/MANE.GRCh38
 
 ### Hartwig Ensembl data cache and Gene Utilities
 
-* TODO: write brief description
-  * some panel data is built from the Hartwig Ensembl data cache
-    * converting UMCCR panels to hmftools-format, generate fusion data for hmftools
-  * this requires Gene Utilities from hmftools
+We use the hmftools workflows or components from Hartwig in our post-processing pipelines, and this requires specific
+panel data files to be generated from the UMCCR gene lists. Generating the these files is done using `gene-utils` and is
+performed for the somatic panel and fusion panel. Beyond the panel data files, we must also build the hmftools Ensembl
+data cache for both the hmftools workflows and certain `gene-utils` functions.
 
+First compile `gene-utils` at commit `a156ed6` (current v1.0 release is missing important changes), see
+[COMPILE_GENE_UTILS.md](COMPILE_GENE_UTILS.md).
+
+Build the Ensembl data cache
 
 ```bash
 mkdir -p resources/hmftools_ensembl_data_cache/
 
 java \
-  -cp /Users/stephen/projects/umccr_specific_hmftools_resources/1_small_variants/2_ensembl_105/software/gene-utils_a156ed6.jar \
+  -cp other/gene-utils_a156ed6.jar \
   com.hartwig.hmftools.geneutils.ensembl.GenerateEnsemblDataCache \
     -ensembl_user anonymous \
     -ensembl_db mysql://ensembldb.ensembl.org:3306/homo_sapiens_core_105_38 \
