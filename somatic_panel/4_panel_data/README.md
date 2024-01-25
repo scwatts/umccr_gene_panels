@@ -6,7 +6,7 @@ Generate panel data for UMCCR post-processing
 mkdir -p output/
 
 awk -F$'\t' 'NR > 1 { print ($1 != "NA" ? $1 : $4)  }' ../3_final_panel/final_panel.tsv > output/umccr_cancer_genes.latest.genes
-awk -F$'\t' '$7 == "TRUE" { print ($1 != "NA" ? $1 : $4) }' ../3_final_panel/final_panel.tsv > output/umccr_cancer_genes.tsgenes.latest.genes
+awk -F$'\t' '$9 == "TRUE" { print ($1 != "NA" ? $1 : $4) }' ../3_final_panel/final_panel.tsv > output/umccr_cancer_genes.tsgenes.latest.genes
 
 ../../scripts/create_gene_bed.py > output/umccr_cancer_genes.genes.bed \
   --panel_fp ../3_final_panel/final_panel.tsv \
