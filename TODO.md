@@ -7,6 +7,3 @@
 * provide table to curators containing genes not in final panel from
   * Hartwig panel (driver, fusions)
   * current UMCCR panel
-
-* germline panel
-  * exclude CPSR superpanel, keep only FCC genes

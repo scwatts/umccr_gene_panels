@@ -23,7 +23,6 @@ refseq <- read_refseq()
 
 # Set gene list source directories and execute prep code
 source_dirnames <- tibble::lst(
-  'cpsr',
   'pmcc_fcc_panel',
 )
 
