@@ -390,6 +390,7 @@ IKZF1	true	true	true	true	true	true	true	TSG	ANY	ANY	ANY	ANY		false
 IKZF2	true	true	true	true	true	true	true	TSG	ANY	ANY	ANY	ANY		false
 IKZF3	true	true	true	true	true	true	true	TSG	ANY	ANY	ANY	ANY		false
 IL10	true	true	true	true	true	true	true	TSG	ANY	ANY	ANY	ANY		false
+IL2RA	true	true	true	true	true	true	true	TSG	ANY	ANY	ANY	ANY		false
 IL2RB	true	true	true	true	true	true	true	TSG	ANY	ANY	ANY	ANY		false
 IL3	true	true	true	true	true	true	true	ONCO	ANY	ANY	ANY	ANY		false
 IL6R	true	true	true	true	true	true	true	TSG	ANY	ANY	ANY	ANY		false
@@ -750,6 +751,7 @@ SETD2	true	true	true	true	true	true	true	TSG	ANY	ANY	ANY	ANY		false
 SETDB1	true	true	true	true	true	true	true	TSG	ANY	ANY	ANY	ANY		false
 SF3B1	true	true	true	true	true	true	true	ONCO	ANY	ANY	ANY	ANY		false
 SFPQ	true	true	true	true	true	true	true	TSG	ANY	ANY	ANY	ANY		false
+SFTPA1	true	true	true	true	true	true	true	TSG	ANY	ANY	ANY	ANY		false
 SFTPB	true	true	true	true	true	true	true	TSG	ANY	ANY	ANY	ANY		false
 SFTPC	true	true	true	true	true	true	true	TSG	ANY	ANY	ANY	ANY		false
 SGK1	true	true	true	true	true	true	true	ONCO	ANY	ANY	ANY	ANY		false
