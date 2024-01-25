@@ -5,6 +5,5 @@
 * used to subset germline small variant calls
 * critically, variants identified here may trigger referral
 * hence, for relevant genes we need to include all locations where there may be a relevant variant
-* imo this should be the entire length of the gene, not just CDS
-* currently using only Ensembl 105 canonical transcripts
-* not including stop codon in regions
+* using the entire length of the gene as defined by Ensembl 105 where available otherwise RefSeq
+  * previously all APPRIS principal and alternative transcripts

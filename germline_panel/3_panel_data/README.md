@@ -11,7 +11,8 @@ cut -f2 -d$'\t' ../2_final_panel/final_panel.tsv | \
   sed 's/\..*$//' | \
   sort > output/umccr_predispoition_genes.latest.genes
 
-./scripts/create_subset_bed.py > output/umccr_predispoition_genes.cds.bed \
+../../scripts/create_gene_bed.py > output/umccr_predispoition_genes.genes.bed \
   --panel_fp ../2_final_panel/final_panel.tsv \
-  --ensembl_cds_data_fp ../../resources/ensembl_cds_data.tsv
+  --ensembl_gene_data_fp ../../resources/ensembl_gene_data.tsv \
+  --refseq_gene_data_fp ../../resources/refseq_gene_data.tsv
 ```
