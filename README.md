@@ -56,10 +56,10 @@ curl https://ftp.ncbi.nlm.nih.gov/refseq/MANE/MANE_human/release_1.3/MANE.GRCh38
 
 ### Hartwig Ensembl data cache and Gene Utilities
 
-We use hmftools workflows/components from Hartwig in our post-processing pipelines, and this requires specific panel
-data files to be generated from the UMCCR gene lists. Generating the these files is done using `gene-utils` and is
-performed for the somatic panel and fusion panel. Beyond the panel data files, we must also build the hmftools Ensembl
-data cache for both the hmftools workflows and certain `gene-utils` functions.
+We use hmftools workflows/components from Hartwig in our post-processing pipelines, and this requires specific data
+files to be generated from the UMCCR gene panels. These data files are created with `gene-utils` for the somatic panel
+and fusion panel. Beyond the panel data files, we must also build the hmftools Ensembl data cache for both the hmftools
+workflows and certain `gene-utils` functions.
 
 First compile `gene-utils` at commit `a156ed6` (current v1.0 release is missing important changes), see
 [COMPILE_GENE_UTILS.md](COMPILE_GENE_UTILS.md).
