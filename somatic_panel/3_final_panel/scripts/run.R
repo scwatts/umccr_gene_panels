@@ -7,8 +7,8 @@ library(readr)
 
 
 # Read in tables
-d.core <- readr::read_tsv('../2_core_panel/core_panel.tsv', col_types='cccccccll')
-d.include <- readr::read_tsv('../resources/curation_team/genes_include.tsv', col_types='cccccccll')
+d.core <- readr::read_tsv('../2_core_panel/core_panel.tsv', col_types='ccccccll')
+d.include <- readr::read_tsv('../resources/curation_team/genes_include.tsv', col_types='ccccccll')
 d.exclude <- readr::read_tsv('../resources/curation_team/genes_exclude.tsv', col_types='cccc')
 
 

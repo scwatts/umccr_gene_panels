@@ -14,7 +14,7 @@ source('../../scripts/util.R')
 # Read in table
 d <- readr::read_delim(
   '../1_panel_sources/panel_source_data.tsv',
-  col_types='cccccccllc',
+  col_types='ccccccllc',
 )
 
 
@@ -83,6 +83,7 @@ if (FALSE) {
   g.d / g.c
 }
 
+
 # Apply record frequency threshold; selected threshold of 3 as this follows the distribution elbow
 v.retain <- d.process |>
   dplyr::group_by(hgnc_id) |>
@@ -100,16 +101,16 @@ d.retain <- d |>
     ensembl_gene_symbol=unique(ensembl_gene_symbol),
     hgnc_symbol=unique(hgnc_symbol),
     refseq_gene_symbol=unique(refseq_gene_symbol),
-    ensembl_transcript_id=unique(ensembl_transcript_id),
     # util.R::set_gene_role
     oncogene=set_gene_role(dplyr::across(dplyr::everything()), 'oncogene'),
     # # util.R::set_gene_role
     tsgene=set_gene_role(dplyr::across(dplyr::everything()), 'tsgene'),
   )
 
+
 # Order columns and rows
 d.retain <- d.retain |>
-  dplyr::relocate(ensembl_gene_symbol, ensembl_gene_id, ensembl_transcript_id, hgnc_symbol, hgnc_id, refseq_gene_symbol, ncbi_gene_id, oncogene, tsgene) |>
+  dplyr::relocate(ensembl_gene_symbol, ensembl_gene_id, hgnc_symbol, hgnc_id, refseq_gene_symbol, ncbi_gene_id, oncogene, tsgene) |>
   dplyr::arrange(ensembl_gene_symbol)
 
 

@@ -1,6 +1,4 @@
 #!/usr/bin/env Rscript
-
-
 library(dplyr)
 library(purrr)
 library(readr)
@@ -22,7 +20,7 @@ hgnc_latest <- read_hgnc_latest()
 
 # Read in data
 d.hmf <- readr::read_delim('data/known_fusion_data.38.csv', col_types='c')
-d.somatic_panel <- readr::read_delim('../../somatic_panel/3_final_panel/final_panel.tsv', col_types='cccccccll')
+d.somatic_panel <- readr::read_delim('../../somatic_panel/3_final_panel/final_panel.tsv', col_types='ccccccll')
 
 
 # Set gene symbol for somatic panel

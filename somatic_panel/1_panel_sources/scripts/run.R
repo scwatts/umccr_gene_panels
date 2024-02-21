@@ -15,10 +15,10 @@ source('../../scripts/util.R')
 # Read in HGNC data
 # util.R::read_hgnc_es105
 ensembl_105 <- read_ensembl_105()
+# util.R::read_refseq
+refseq <- read_refseq()
 # util.R::read_hgnc_latest
 hgnc_latest <- read_hgnc_latest()
-# util.R::read_hgnc_latest
-refseq <- read_refseq()
 
 
 # Set gene list source directories and execute prep code
@@ -59,7 +59,7 @@ gene_data <- c(
 # Add Ensembl 105 gene IDs and symbols, not all entries have Ensembl records
 gene_data <- gene_data |>
   dplyr::left_join(
-    dplyr::select(ensembl_105, hgnc_id, ensembl_gene_id, ensembl_transcript_id, symbol),
+    dplyr::select(ensembl_105, hgnc_id, ensembl_gene_id, symbol),
     by='hgnc_id',
   ) |>
   dplyr::rename(ensembl_gene_symbol=symbol)
@@ -86,7 +86,7 @@ gene_data <- gene_data |>
 
 # Order columns and rows
 gene_data <- gene_data |>
-  dplyr::relocate(ensembl_gene_symbol, ensembl_gene_id, ensembl_transcript_id, hgnc_symbol, hgnc_id, refseq_gene_symbol, ncbi_gene_id, oncogene, tsgene, data_source) |>
+  dplyr::relocate(ensembl_gene_symbol, ensembl_gene_id, hgnc_symbol, hgnc_id, refseq_gene_symbol, ncbi_gene_id, oncogene, tsgene, data_source) |>
   dplyr::arrange(data_source, ensembl_gene_symbol)
 
 

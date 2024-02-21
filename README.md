@@ -12,6 +12,15 @@ Construction of gene panels and associated data used at UMCCR.
 
 ### Gene annotations
 
+First download APPRIS annotations so that we can select the most relevant transcripts.
+
+```bash
+base_url=https://apprisws.bioinfo.cnio.es/pub/releases/2023_08.v48/datafiles/homo_sapiens
+
+wget -O resources/appris.e105v46.tsv ${base_url}/e105v46/appris_data.appris.txt
+wget -O resources/appris.rs110v48.tsv ${base_url}/rs110v48/appris_data.appris.txt
+```
+
 Annotations from Ensembl 105, HGNC, and RefSeq are used to reference genes in a consistent way, enabling exact and
 confident comparison between different sources. The Ensembl 105 annotations are obtained from the GENCODE v39 release
 and processed to be readily usable.
@@ -19,9 +28,30 @@ and processed to be readily usable.
 ```bash
 wget -P resources/ https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_39/gencode.v39.annotation.gtf.gz
 
-./scripts/compile_ensembl_and_hgnc_data.py \
+./scripts/compile_annotation_data.py \
+  ensembl \
   --annotations_fp resources/gencode.v39.annotation.gtf.gz \
-  --output_dir resources/
+  --appris_fp resources/appris.e105v46.tsv \
+  --output_dir ./resources/
+```
+
+As some genes are not present in Ensembl 105 (e.g. IGH, TRA), I use RefSeq v110 annotation release inplace of Ensembl
+when necessary. As RefSeq annotations use accessions for contigs, these must be renamed with using a lookup table.
+
+```bash
+base_ftp=https://ftp.ncbi.nlm.nih.gov/genomes/all/annotation_releases/9606/110/GCF_000001405.40_GRCh38.p14
+wget -P resources/ ${base_ftp}/GCF_000001405.40_GRCh38.p14_genomic.gtf.gz
+
+curl ${base_ftp}/GCF_000001405.40_GRCh38.p14_assembly_report.txt | \
+  awk 'BEGIN { OFS="\t" } $0 ~ /^MT|^[0-9XY]/ { print "chr" $1, $7 }' | \
+  sed 's/chrMT/chrM/' > resources/refseq_contig_id_mapping.tsv
+
+./scripts/compile_annotation_data.py \
+  refseq \
+  --annotations_fp resources/GCF_000001405.40_GRCh38.p14_genomic.gtf.gz \
+  --appris_fp resources/appris.rs110v48.tsv \
+  --contig_mapping_fp resources/refseq_contig_id_mapping.tsv \
+  --output_dir ./resources/
 ```
 
 I've anecdotally observed that source gene symbols match at a higher rate to the latest HGNC database release compared
@@ -30,28 +60,6 @@ database release and subsequently add the Ensembl 105 gene annotations. Hence, w
 
 ```bash
 wget -P resources/ https://ftp.ebi.ac.uk/pub/databases/genenames/hgnc/archive/monthly/tsv/hgnc_complete_set_2023-11-01.tsv
-```
-
-Lastly as some genes are not present in Ensembl 105 (e.g. IGH, TRA), I use the latest RefSeq release along with MANE
-select to obtain genomic coordinates for these genes.
-
-```bash
-base_ftp=https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14
-
-wget -P resources/ ${base_ftp}/GCF_000001405.40_GRCh38.p14_genomic.gtf.gz
-curl ${base_ftp}/GCF_000001405.40_GRCh38.p14_assembly_report.txt | \
-  awk 'BEGIN { OFS="\t" } $0 ~ /^MT|^[0-9XY]/ { print "chr" $1, $7 }' > resources/refseq_contig_id_mapping.tsv
-
-curl https://ftp.ncbi.nlm.nih.gov/refseq/MANE/MANE_human/release_1.3/MANE.GRCh38.v1.3.summary.txt.gz | \
-  gzip -cd | \
-  awk -F$'\t' 'BEGIN { OFS="\t" } NR > 1 && $10 == "MANE Select" { print $1, $6 }' | \
-  sed 's/^GeneID://' > resources/refseq_mane_select.tsv
-
-./scripts/compile_refseq_data.py \
-  --annotations_fp resources/GCF_000001405.40_GRCh38.p14_genomic.gtf.gz \
-  --contig_mapping_fp resources/refseq_contig_id_mapping.tsv \
-  --mane_select_fp resources/refseq_mane_select.tsv \
-  --output_dir resources/
 ```
 
 ### Hartwig Ensembl data cache and Gene Utilities

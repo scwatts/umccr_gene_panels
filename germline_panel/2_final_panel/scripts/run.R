@@ -12,7 +12,7 @@ library(tibble)
 # Read in table
 d <- readr::read_delim(
   '../1_panel_sources/panel_source_data.tsv',
-  col_types='cccccccc',
+  col_types='ccccccc',
 )
 
 
@@ -25,6 +25,7 @@ d.retain <- d |>
 # Order rows
 d.retain <- d.retain |>
   dplyr::arrange(ensembl_gene_symbol)
+
 
 # Write
 readr::write_tsv(d.retain, 'final_panel.tsv')

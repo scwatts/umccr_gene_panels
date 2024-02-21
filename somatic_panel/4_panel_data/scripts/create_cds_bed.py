@@ -10,6 +10,7 @@ def get_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument('--panel_fp', required=True, type=pathlib.Path)
     parser.add_argument('--ensembl_cds_data_fp', required=True, type=pathlib.Path)
+    parser.add_argument('--refseq_cds_data_fp', required=True, type=pathlib.Path)
 
     args = parser.parse_args()
 
@@ -17,6 +18,8 @@ def get_arguments():
         parser.error(f'Input file {args.panel_fp} does not exist')
     if not args.ensembl_cds_data_fp.exists():
         parser.error(f'Input file {args.ensembl_cds_data_fp} does not exist')
+    if not args.refseq_cds_data_fp.exists():
+        parser.error(f'Input file {args.refseq_cds_data_fp} does not exist')
 
     return args
 
@@ -27,36 +30,46 @@ def main():
 
     # Read in gene data and panel data
     ensembl_cds = get_cds_data(args.ensembl_cds_data_fp)
+    refseq_cds = get_cds_data(args.refseq_cds_data_fp)
     panel_records = get_panel_records(args.panel_fp)
 
-    # Some genes do not have CDS records or are completely absent from Ensembl 105
+    # Some genes do not have CDS records or are completely absent from Ensembl 105 and RefSeq 110
     skip_genes = {
-        'ENSG00000130600.20', # H19
-        'ENSG00000259104.2',  # PTCSC3
-        'ENSG00000270123.4',  # VTRNA2-1
-        'ENSG00000270141.3',  # TERC
-        'ENSG00000280757.1',  # DUX4L1
-        'ENSG00000284182.1',  # MIR143
-        'NA',                 # TRA, TRB, IGH, TGK, TGL (no Ensembl record)
+        'HGNC:3082',  # DUX4L1
+        'HGNC:4713',  # H19
+        'HGNC:5477',  # IGH
+        'HGNC:5715',  # IGK
+        'HGNC:5853',  # IGL
+        'HGNC:11727', # TERC
+        'HGNC:12027', # TRA
+        'HGNC:12155', # TRB
+        'HGNC:31530', # MIR143
+        'HGNC:37054', # VTRNA2-1
+        'HGNC:43959', # PTCSC3
     }
 
     # Get CDS data to write out
     data = list()
-    seen_transcript_ids = set()
+    seen_ids = set()
     for panel_record in panel_records:
 
-        if panel_record['ensembl_gene_id'] in skip_genes:
+        if panel_record['hgnc_id'] in skip_genes:
+            assert panel_record['hgnc_id'] not in ensembl_cds
+            assert panel_record['hgnc_id'] not in refseq_cds
             continue
 
-        assert panel_record['ensembl_transcript_id'] in ensembl_cds
-        assert panel_record['ensembl_transcript_id'] not in seen_transcript_ids
+        assert panel_record['hgnc_id'] not in seen_ids
+        seen_ids.add(panel_record['hgnc_id'])
 
-        seen_transcript_ids.add(panel_record['ensembl_transcript_id'])
-        cds_records = ensembl_cds[panel_record['ensembl_transcript_id']]
+        if panel_record['hgnc_id'] in ensembl_cds:
+            cds_records = ensembl_cds[panel_record['hgnc_id']]
+        elif panel_record['hgnc_id'] in refseq_cds:
+            # NOTE(SW): there are currently no entries where RefSeq but not Ensembl has CDS annotations
+            cds_records = refseq_cds[panel_record['hgnc_id']]
+        else:
+            assert False
 
-        assert len({r['attr_dict']['ensembl_transcript_id'] for r in cds_records}) == 1
-        assert len({r['attr_dict']['ensembl_gene_id'] for r in cds_records}) == 1
-
+        assert len({r['attr_dict']['hgnc_id'] for r in cds_records}) == 1
         data.extend(cds_records)
 
     # Sort then output CDS data
@@ -92,7 +105,7 @@ def get_panel_records(fp):
 
 def get_cds_data(fp):
     header = ('seqname', 'start', 'end', 'attr', 'strand')
-    attr_fields = ('symbol', 'hgnc_id', 'ensembl_gene_id', 'ensembl_transcript_id')
+    attr_fields = ('symbol', 'hgnc_id', 'gene_id', 'transcript_id', 'feature_type')
 
     records = dict()
     with fp.open('r') as fh:
@@ -101,7 +114,7 @@ def get_cds_data(fp):
 
             record = {k: v for k, v in zip(header, data)}
             record['attr_dict'] = {k: v for k, v in zip(attr_fields, record['attr'].split(';'))}
-            key = record['attr_dict']['ensembl_transcript_id']
+            key = record['attr_dict']['hgnc_id']
 
             if key not in records:
                 records[key] = list()
