@@ -1,5 +1,5 @@
 [bumpver]
-current_version = "00.00.0"
+current_version = "24.02.0"
 version_pattern = "YY.0M.PATCH[-TAG]"
 commit_message = "Bump version: {old_version} → {new_version}"
 commit = true

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-release_version=00.00.0
+release_version=24.02.0
 
 
 # Set up build directory
