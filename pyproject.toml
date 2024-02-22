@@ -1,0 +1,12 @@
+[bumpver]
+current_version = "00.00.0"
+version_pattern = "YY.0M.PATCH[-TAG]"
+commit_message = "Bump version: {old_version} → {new_version}"
+commit = true
+tag = false
+push = false
+
+[bumpver.file_patterns]
+"scripts/build_release_assets.sh" = [
+    'release_version={version}',
+]
