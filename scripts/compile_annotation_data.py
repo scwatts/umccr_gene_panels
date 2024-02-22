@@ -301,7 +301,7 @@ def write_gene_data(data, source, output_dir):
     header = ['hgnc_id', 'gene_id', 'symbol', 'contig', 'start', 'end', 'strand']
     with (output_dir / f'{source}.genes.tsv').open('w') as fh:
         print(*header, sep='\t', file=fh)
-        for record in sorted(data, key=bed_record_sort_key):
+        for record in sorted(data, key=gtf_record_sort):
             print(
                 record.hgnc_id,
                 record.gene_id,
@@ -316,7 +316,7 @@ def write_gene_data(data, source, output_dir):
 
 def write_transcript_data(data, source, output_dir):
     with (output_dir / f'{source}.transcripts.bed').open('w') as fh:
-        for record in sorted(data, key=bed_record_sort_key):
+        for record in sorted(data, key=gtf_record_sort):
 
             hgnc_id = '' if record.hgnc_id == 'NA' else record.hgnc_id
             info_fields = [record.gene_name, hgnc_id, record.gene_id, record.transcript_id]
@@ -334,7 +334,7 @@ def write_transcript_data(data, source, output_dir):
 
 def write_cds_data(data, source, output_dir):
     with (output_dir / f'{source}.cds.bed').open('w') as fh:
-        for record in sorted(data, key=bed_record_sort_key):
+        for record in sorted(data, key=gtf_record_sort):
 
             hgnc_id = '' if record.hgnc_id == 'NA' else record.hgnc_id
             info_fields = [record.gene_name, hgnc_id, record.gene_id, record.transcript_id, record.feature]
@@ -350,7 +350,7 @@ def write_cds_data(data, source, output_dir):
             )
 
 
-def bed_record_sort_key(r):
+def gtf_record_sort(r):
     return (CHROM_ORDER.index(r.seqname), int(r.start))
 
 
