@@ -1,3 +1,5 @@
+# Compiling Gene Utils from hmftools
+
 Get hmftools GH repo and checkout target commit
 
 ```bash
