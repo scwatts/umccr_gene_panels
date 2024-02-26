@@ -34,3 +34,19 @@ rm -r ${data_dp}/
 # NOTE(SW): fusion panel is currently the somatic panel, so is skipped
 cp somatic_panel/3_final_panel/final_panel.tsv ${build_dp}/somatic_panel-v${release_version}.tsv
 cp germline_panel/2_final_panel/final_panel.tsv ${build_dp}/germline_panel-v${release_version}.tsv
+
+
+# Ensembl data cache
+# NOTE(SW): made available for download and construct UMCCR reference data
+ensembl_dn=ensembl-data-cache-v${release_version}
+ensembl_dp=${build_dp}/${ensembl_dn}
+
+mkdir -p ${ensembl_dp}/
+
+rsync -aP resources/hmftools_ensembl_data_cache/ ${ensembl_dp}/
+
+pushd ${build_dp}/
+tar -czvf ${ensembl_dn}.tar.gz ${ensembl_dn}/
+popd
+
+rm -r ${ensembl_dp}/
