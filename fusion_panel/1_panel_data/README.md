@@ -45,13 +45,15 @@ sed \
   -e '/PROMISCUOUS_[35].*\tTRB\t/d' \
   output/fusion_database.tsv
 
+mkdir -p output/hmftools/
+
 java \
   -cp ../../other/gene-utils-1.1-jar-with-dependencies.jar \
   com.hartwig.hmftools.geneutils.fusion.GenerateFusionFiles \
     -known_fusion_db_file output/fusion_database.tsv \
     -resource_repo_dir ${db}/ \
     -log_debug \
-    -output_dir output/
+    -output_dir output/hmftools/
 
 rm -r ${db}/
 ```

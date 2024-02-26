@@ -18,7 +18,10 @@ mkdir -p ${data_dp}/
 
 rsync -aP somatic_panel/4_panel_data/output/ ${data_dp}/somatic/
 rsync -aP germline_panel/3_panel_data/output/ ${data_dp}/germline/
-rsync -aP --exclude='fusion_database.tsv' fusion_panel/1_panel_data/output/ ${data_dp}/fusion/
+rsync -aP \
+  --exclude='fusion_database.tsv' \
+  --exclude='hmftools_fusion_data.subset.csv' \
+  fusion_panel/1_panel_data/output/ ${data_dp}/fusion/
 
 pushd ${build_dp}/
 tar -czvf ${data_dn}.tar.gz ${data_dn}/
