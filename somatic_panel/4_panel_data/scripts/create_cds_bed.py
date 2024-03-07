@@ -40,6 +40,7 @@ def main():
         'HGNC:5477',  # IGH
         'HGNC:5715',  # IGK
         'HGNC:5853',  # IGL
+        'HGNC:9709',  # PVT1
         'HGNC:11727', # TERC
         'HGNC:12027', # TRA
         'HGNC:12155', # TRB
