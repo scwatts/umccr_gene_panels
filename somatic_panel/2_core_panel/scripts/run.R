@@ -5,7 +5,7 @@ library(readr)
 library(tibble)
 
 
-#setwd('/Users/stephen/projects/umccr_key_genes_202312/2_sources/repo/somatic_panel/2_core_panel/')
+#setwd('/Users/stephen/repos/gene_panels/somatic_panel/2_core_panel/')
 
 
 source('../../scripts/util.R')

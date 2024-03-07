@@ -3,7 +3,7 @@ library(dplyr)
 library(readr)
 
 
-#setwd('/Users/stephen/projects/umccr_key_genes_202312/2_sources/repo/somatic_panel/3_final_panel/')
+#setwd('/Users/stephen/repos/gene_panels/somatic_panel/3_final_panel/')
 
 
 # Read in tables

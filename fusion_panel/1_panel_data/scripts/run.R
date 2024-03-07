@@ -5,7 +5,7 @@ library(readr)
 library(tidyr)
 
 
-#setwd('/Users/stephen/projects/umccr_key_genes_202312/2_sources/repo/fusion_panel/1_panel_data/')
+#setwd('/Users/stephen/repos/gene_panels/fusion_panel/1_panel_data/')
 
 
 source('../../scripts/util.R')

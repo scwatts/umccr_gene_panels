@@ -6,7 +6,7 @@ library(readr)
 library(tibble)
 
 
-#setwd('/Users/stephen/projects/umccr_key_genes_202312/2_sources/repo/germline_panel/2_final_panel/')
+#setwd('/Users/stephen/repos/gene_panels/germline_panel/2_final_panel/')
 
 
 # Read in table
