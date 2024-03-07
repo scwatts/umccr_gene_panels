@@ -23,7 +23,7 @@ hgnc_latest <- read_hgnc_latest()
 
 # Set gene list source directories and execute prep code
 source_dirnames <- tibble::lst(
-  'pmcc_fcc_panel',
+  'pmcc_fcc',
 )
 
 # Run each prepare.R script and collect relevant data
