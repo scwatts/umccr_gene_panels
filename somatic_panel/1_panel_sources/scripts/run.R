@@ -27,17 +27,20 @@ source_dirnames <- tibble::lst(
     'bushmanlab',
     'cancermine',
     'civic',
+    'cpsr',
     'hmf',
     'intogen',
     'ncg',
     'oncoenrichr',
     'oncokb',
+    'pmcc_fcc',
   ),
   static=tibble::lst(
     'icgc',
     'oncovar',
     'sinkala',
     'tcga',
+    'tso500',
   ),
 )
 

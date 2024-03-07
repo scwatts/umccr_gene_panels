@@ -6,5 +6,6 @@ wget -P data/ https://storage.googleapis.com/hmf-public/HMFtools-Resources/dna_p
 tar \
   -xzvf data/hmf_dna_pipeline_resources.38_v5.33.tar.gz \
   -s '#^.*/#data/#' \
-  ./common/DriverGenePanel.38.tsv
+  ./common/DriverGenePanel.38.tsv \
+  ./sv/known_fusion_data.38.csv
 ```

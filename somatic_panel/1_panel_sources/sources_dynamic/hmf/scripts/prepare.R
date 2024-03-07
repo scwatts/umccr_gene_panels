@@ -4,11 +4,34 @@ library(readr)
 library(tidyr)
 
 
-# Read in table
-d <- readr::read_delim(
+# Read in tables
+# Somatic panel
+d.panel <- readr::read_delim(
   fs::path(PREFIX, 'data', 'DriverGenePanel.38.tsv'),
   col_select=c('gene', 'likelihoodType'),
   col_types='cc',
+)
+
+# Fusion panel
+d.fusions <- readr::read_delim(
+  fs::path(PREFIX, 'data', 'known_fusion_data.38.csv'),
+  col_select=c('FiveGene', 'ThreeGene'),
+  col_types='cc',
+) |>
+  tidyr::pivot_longer(
+    cols=tidyselect::everything(),
+    names_to='source',
+    values_to='gene',
+  ) |>
+  dplyr::select(-source) |>
+  dplyr::filter(!is.na(gene)) |>
+  dplyr::distinct() |>
+  dplyr::filter(! gene %in% d.panel$gene)
+
+# Create input data tibble
+d <- dplyr::bind_rows(
+  d.panel,
+  d.fusions,
 )
 
 

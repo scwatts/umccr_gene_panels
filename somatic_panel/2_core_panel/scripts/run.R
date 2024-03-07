@@ -1,4 +1,5 @@
 #!/usr/bin/env Rscript
+library(assertthat)
 library(dplyr)
 library(purrr)
 library(readr)
@@ -18,11 +19,21 @@ d <- readr::read_delim(
 )
 
 
-# Keep all OncoKB and HMF genes, split others for further processing
+# Keep all OncoKB, HMF, PMCC FCC, CPSR, TSO500; split others for further processing
 # Set grouping
+v.retain_sources <- c(
+  'hmf',
+  'oncokb',
+  'cpsr',
+  'pmcc_fcc',
+  'tso500'
+)
+
+assertthat::assert_that(all(v.retain_sources %in% d$data_source))
+
 d.grouped.retain <- d |>
   dplyr::group_by(
-    retain=dplyr::if_else(data_source %in% c('oncokb', 'hmf'), 'retain', 'other')
+    retain=dplyr::if_else(data_source %in% v.retain_sources, 'retain', 'other')
   )
 
 # Split groups, set list keys
