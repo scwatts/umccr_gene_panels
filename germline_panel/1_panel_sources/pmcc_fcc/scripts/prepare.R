@@ -6,10 +6,13 @@ library(tidyr)
 
 
 # Read in table
-d <- readr::read_lines(
-  fs::path(PREFIX, 'data', 'pmcc_fcc.txt'),
-) |>
-  tibble::enframe(name=NULL, value='symbol')
+d <- readr::read_delim(
+  fs::path(PREFIX, 'data', 'Germline_gene_list_Updated_Jul_2024.tsv'),
+  col_names='symbol',
+  col_types='c',
+  col_select='symbol',
+  skip=1,
+)
 
 
 # Match against HGNC latest

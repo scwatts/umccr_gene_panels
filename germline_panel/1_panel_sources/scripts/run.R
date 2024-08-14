@@ -37,7 +37,6 @@ gene_data <- source_dirnames |>
   }) |>
   dplyr::bind_rows()
 
-
 # Add Ensembl 105 gene IDs and symbols, not all entries have Ensembl records
 gene_data <- gene_data |>
   dplyr::left_join(

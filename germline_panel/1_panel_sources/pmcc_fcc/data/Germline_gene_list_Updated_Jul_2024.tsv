@@ -1,0 +1,87 @@
+New List	Old List	Corresponding PMCC FCC Gene Panel
+ANKRD26	N	Haem malignancy predisposition
+BARD1	N	"Spectrun One, BRCA Plus, BOPP"
+CEBPA	N	Haem malignancy predisposition
+DDX41	N	Haem malignancy predisposition
+ETV6	N	Haem malignancy predisposition
+KIT	N	"Para, Pheo & GIST"
+LZTR1	N	Schwannomatosis
+MBD4	N	Haem malignancy predisposition
+PDGFRA	N	PPGL + GIST
+SAMD9	N	Haem malignancy predisposition
+SAMD9L	N	Haem malignancy predisposition
+MLH3	N	Single gene
+MSH3	N	Single gene
+RNF43	N	Single gene
+CHEK2	Y	"Spectrun One, BRCA Plus, BOPP, Prostate "
+ATM	Y	"Spectrun One, BRCA Plus, BOPP, Prostate, Pancreas"
+SCG5	Y	"Spectrun One, Colorectal & endometrial, Polyps"
+GREM1	Y	"Spectrun One, Colorectal & endometrial, Polyps"
+EPCAM	Y	"Spectrun One, BOPP, Ovarian, Prostate, Pancreas, Colorectal & endometrial, MMR"
+POLD1	Y	"Spectrun One, Colorectal & endometrial, MMR, Polyps"
+POLE	Y	"Spectrun One, Colorectal & endometrial, MMR, Polyps"
+PALB2	Y	"Spectrun One, BRCA Plus, BOPP, Ovarian, Pancreas"
+VHL	Y	"Renal, Para, Pheo & GIST, Facial papule syndrome"
+TSC2	Y	"Renal, Para, Pheo & GIST, Endocrine"
+TSC1	Y	"Renal, Facial papule syndrome"
+TP53	Y	"Spectrun One, BRCA Plus, BOPP, Ovarian, Prostate, Pancreas,  Colorectal & endometrial, Polyps, Melanoma, Sarcoma, Haem Malignancy Predisposition"
+TMEM127	Y	"Para, Pheo & GIST"
+SUFU	Y	Gorlin syndrome
+STK11	Y	"Spectrun One, BOPP, Pancreas, Colorectal & endometrial, Polyps"
+SMARCE1	Y	Single gene
+SMARCB1	Y	Schwannomatosis
+SMARCA4	Y	Single gene
+SMAD4	Y	"Spectrun One, Colorectal & endometrial, Polyps"
+SDHD	Y	"Renal, Para, Pheo & GIST, Pituitary"
+SDHC	Y	"Renal, Para, Pheo & GIST, Pituitary"
+SDHB	Y	"Renal, Para, Pheo & GIST, Pituitary"
+SDHAF2	Y	"Para, Pheo & GIST"
+SDHA	Y	"Renal, Para, Pheo & GIST, Pituitary"
+RUNX1	Y	Haem malignancy predisposition
+RET	Y	"Para, Pheo & GIST, Endocrine"
+RB1	Y	"Melanoma, Sarcoma"
+RAD51D	Y	"Spectrun One, BRCA Plus, BOPP, Ovarian "
+RAD51C	Y	"Spectrun One, BRCA Plus, BOPP, Ovarian "
+PTEN	Y	"Spectrun One, BOPP, Colorectal & endometrial, Polyps, Renal, Melanoma, Facial palpule syndrome, endocrine"
+PTCH1	Y	Gorlin syndrome
+PRKAR1A	Y	"Pituitary, Endocrine"
+POT1	Y	Melanoma
+PMS2	Y	"Spectrun One, BOPP, Ovarian, Prostate, Pancreas, Colorectal & endometrial, MMR"
+NTHL1	Y	"Colorectal& endometrial, Polyps"
+NF2	Y	"Para, Pheo & GIST, Schwannomatosis"
+NF1	Y	"Para, Pheo & GIST"
+MUTYH	Y	"Spectrun One, Colorectal& endometrial, Polyps"
+MSH6	Y	"Spectrun One, BOPP, Ovarian, Prostate, Pancreas, Colorectal & endometrial, MMR, Renal"
+MSH2	Y	"Spectrun One, BOPP, Ovarian, Prostate, Pancreas, Colorectal & endometrial, MMR, Renal"
+MLH1	Y	"Spectrun One, BOPP, Ovarian, Prostate, Pancreas, Colorectal & endometrial, MMR, Renal"
+MET	Y	Renal
+MEN1	Y	"Pituitary, Endocrine"
+MDH2	Y	"Para, Pheo & GIST"
+MAX	Y	"Para, Pheo & GIST"
+KIF1B	Y	"Para, Pheo & GIST"
+IDH1	Y	"Para, Pheo & GIST"
+HOXB13	Y	"BOPP, Prostate"
+GATA2	Y	Haem malignancy predisposition
+FLCN	Y	"Renal, Facial papule syndrome"
+FH	Y	"Renal, Para, Pheo & GIST, Facial papule syndrome"
+EXT2	Y	Sarcoma
+EXT1	Y	Sarcoma
+EPAS1	Y	"Para, Pheo & GIST"
+EGLN2	Y	Single gene
+EGLN1	Y	Single gene
+DICER1	Y	Single gene
+CSDE1	Y	Single gene
+CDKN2A	Y	"Spectrun One, BOPP, Pancreas, Melanoma"
+CDKN1B	Y	"Pituitary, Endocrine"
+CDK4	Y	"Spectrun One, Melanoma"
+CDH1	Y	"Spectrun One, Colorectal & endometrial, BOPP"
+CDC73	Y	Endocrine
+BUB1B	Y	"Colorectal& endometrial, Polyps"
+BRIP1	Y	"Spectrun One, BRCA Plus, BOPP, Ovarian"
+BRCA2	Y	"Spectrun One, BRCA only, BRCA Plus, BOPP, Ovarian, Pancreas, Prostate, Melanoma"
+BRCA1	Y	"Spectrun One, BRCA only, BRCA Plus, BOPP, Ovarian, Pancreas, Prostate"
+BMPR1A	Y	"Spectrun One, Colorectal & endometrial, Polyps"
+BAP1	Y	"Spectrun One, Renal, Melanoma"
+AXIN2	Y	"Colorectal & endometrial, Polyps"
+APC	Y	"Spetrum One, Colorectal& endometrial, Polyps, Sarcoma"
+AIP	Y	"Pituitary, Endocrine"
