@@ -8,7 +8,7 @@ mkdir -p output/
 awk -F$'\t' 'NR > 1 { print ($1 != "NA" ? $1 : $3)  }' ../3_final_panel/final_panel.tsv > output/umccr_cancer_genes.latest.genes
 awk -F$'\t' '$8 == "TRUE" { print ($1 != "NA" ? $1 : $3) }' ../3_final_panel/final_panel.tsv > output/umccr_cancer_genes.tsgenes.latest.genes
 
-../../scripts/create_gene_bed.py > output/umccr_cancer_genes.genes.bed \
+./scripts/create_gene_bed.py > output/umccr_cancer_genes.genes.bed \
   --panel_fp ../3_final_panel/final_panel.tsv \
   --ensembl_gene_data_fp ../../resources/ensembl_gene_data.tsv \
   --refseq_gene_data_fp ../../resources/refseq_gene_data.tsv
