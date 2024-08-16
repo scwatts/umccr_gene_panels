@@ -1,16 +1,5 @@
 # Important
 
-## `umccr_cancer_genes.hg38.ensembl107.sort.bed`
-
-* only used to select variants in hypermutated samples
-* ***no slop***, check if need to compensate boundaries in bolt
-
-## `umccr_cancer_genes.hg38.coding.bed`
-
-* only used in allele frequency calculation (prior to cancer report)
-* using all APPRIS principal and alternative transcripts
-  * somewhat conflicting with Hartwig wrt use of Ensembl canonical transcripts
-
 ## hmftools panel data
 
 * genes with ambiguous (oncogene and tsgene) or absent roles handled by:
