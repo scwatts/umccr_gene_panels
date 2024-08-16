@@ -5,15 +5,15 @@ Generate panel data for UMCCR post-processing
 ```bash
 mkdir -p output/
 
-awk -F$'\t' 'NR > 1 { print ($1 != "NA" ? $1 : $3)  }' ../3_final_panel/final_panel.tsv > output/umccr_cancer_genes.latest.genes
-awk -F$'\t' '$8 == "TRUE" { print ($1 != "NA" ? $1 : $3) }' ../3_final_panel/final_panel.tsv > output/umccr_cancer_genes.tsgenes.latest.genes
+awk -F$'\t' 'NR > 1 { print ($1 != "NA" ? $1 : $3)  }' ../3_final_panel/final_panel.tsv > output/umccr_cancer_genes.gene_symbols.all.txt
+awk -F$'\t' '$8 == "TRUE" { print ($1 != "NA" ? $1 : $3) }' ../3_final_panel/final_panel.tsv > output/umccr_cancer_genes.gene_symbols.tsgenes.txt
 
-./scripts/create_gene_bed.py > output/umccr_cancer_genes.genes.bed \
+./scripts/create_gene_bed.py > output/umccr_cancer_genes.gene_regions.bed \
   --panel_fp ../3_final_panel/final_panel.tsv \
   --ensembl_gene_data_fp ../../resources/ensembl_gene_data.tsv \
   --refseq_gene_data_fp ../../resources/refseq_gene_data.tsv
 
-./scripts/create_cds_bed.py > output/umccr_cancer_genes.cds.bed \
+./scripts/create_cds_bed.py > output/umccr_cancer_genes.cds_regions.bed \
   --panel_fp ../3_final_panel/final_panel.tsv \
   --ensembl_cds_data_fp ../../resources/ensembl.cds.bed \
   --refseq_cds_data_fp ../../resources/refseq.cds.bed
