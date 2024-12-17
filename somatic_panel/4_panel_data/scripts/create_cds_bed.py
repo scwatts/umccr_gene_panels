@@ -77,8 +77,8 @@ def main():
     for record in sorted(data, key=cds_record_sort_key):
         d = (
             record['seqname'],
-            # NOTE(SW): BED start position is 0-based
-            int(record['start']) - 1,
+            # NOTE(SW): BED start position is already adjusted to 0-base in input
+            int(record['start']),
             record['end'],
             record['attr'],
             '.', # BED score field
